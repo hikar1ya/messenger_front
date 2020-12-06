@@ -55,9 +55,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Chat() {
     const classes = useStyles();
 
-    const sender = "user1";
+    const sender = "5fc23d1346ea132fe3066973";
 
-    const receiver = "user2";
+    const receiver = "5fc2387539dc49f806f755c5";
+
+    
+
 
     const [textValue, changeTextValue] = useState('');
 
@@ -67,6 +70,11 @@ export default function Chat() {
         const response = await axios.get("http://")
 
         setData(response.data) 
+    }
+    var message = {
+        from_id: sender,
+        to_id: receiver,
+        text: textValue
     }
 
     //fetchData();
@@ -122,7 +130,8 @@ export default function Chat() {
                                 color="primary" 
                                 className = {classes.button}
                                 onClick={() => {
-                                    fetch('http://localhost:5000/send', { method: "POST", body: [sender, receiver, textValue] })}}
+                                    axios.post('http://localhost:5000/send', message)}}
+
                             >
                                 Send
                             </Button>
