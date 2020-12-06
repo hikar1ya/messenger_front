@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,10 +52,20 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function Dashboard() {
+export default function Chat() {
     const classes = useStyles();
 
-    const [textValue, changeTextValue] = React.useState('');
+    const [textValue, changeTextValue] = useState('');
+
+    const [data, setData] = useState(null);
+
+    const fetchData = async () => {
+        const response = await axios.get("http://")
+
+        setData(response.data) 
+    }
+
+    //fetchData();
 
     return (
         <div>
