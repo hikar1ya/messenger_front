@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Chat() {
     const classes = useStyles();
 
+    const sender = "user1";
+
+    const receiver = "user2";
+
     const [textValue, changeTextValue] = useState('');
 
     const [data, setData] = useState(null);
@@ -113,7 +117,13 @@ export default function Chat() {
                                 value = {textValue}
                                 onChange = {e => changeTextValue(e.target.value)}
                             />
-                            <Button variant="contained" color="primary" className = {classes.button}>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                className = {classes.button}
+                                onClick={() => {
+                                    fetch('http://localhost:5000/send', { method: "POST", body: [sender, receiver, textValue] })}}
+                            >
                                 Send
                             </Button>
                         </div>
