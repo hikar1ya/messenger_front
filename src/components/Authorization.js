@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,9 +33,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Authorization() {
     const classes = useStyles();
 
-    const [emailValue, changeEmailValue] = useState('');
+    const [loginValue, changeLoginValue] = useState('');
 
     const [passwordValue, changePasswordValue] = useState('');
+
+    var log_info = {
+        login: loginValue,
+        password: passwordValue
+    }
 
     return (
         <div>
@@ -47,12 +53,11 @@ export default function Authorization() {
                 <div className = {classes.field}>
                     <TextField 
                         id="outlined-basic" 
-                        label="E-mail" 
+                        label="Login" 
                         variant="outlined" 
                         className = {classes.textBox}
-                        value = {emailValue}
-                        onChange = {e => changeEmailValue(e.target.value)}
-                        type="email"
+                        value = {loginValue}
+                        onChange = {e => changeLoginValue(e.target.value)}
                     />
                 </div>
                 <div className = {classes.field}>
@@ -72,7 +77,7 @@ export default function Authorization() {
                         color="primary" 
                         className = {classes.button}
                         onClick={() => {
-                            fetch('', {})}}
+                            axios.get('http://localhost:5000/auth', log_info)}}
                     >
                         Sign in
                     </Button>
