@@ -77,7 +77,7 @@ export default function Authorization() {
                         color="primary" 
                         className = {classes.button}
                         onClick={() => {
-                            axios.get('http://localhost:5000/auth', log_info)}}
+                            axios.post('http://localhost:5000/auth', log_info)}}
                     >
                         Sign in
                     </Button>
