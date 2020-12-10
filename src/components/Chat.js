@@ -69,10 +69,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Chat(props) {
     const classes = useStyles();
 
-    const sender = "5fd0de8f9d7fe70437d9574a";
-
-    const receiver = "5fc2387539dc49f806f755c5";
-
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
@@ -84,8 +80,8 @@ export default function Chat(props) {
     const [textValue, changeTextValue] = useState('');
 
     var message = {
-        from_id: sender,
-        to_id: receiver,
+        from_id: props.id,
+        to_id: props.toUserId,
         text: textValue
     }
 
@@ -156,6 +152,7 @@ export default function Chat(props) {
                                 color="primary" 
                                 className = {classes.button}
                                 onClick={() => {
+                                    console.log(message)
                                     axios.post('http://localhost:5000/send', message)}}
 
                             >
