@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
         width: 'inherit',
         height: '700px',
         paddingLeft: '10px',
-        paddingTop: '30px'
+        paddingTop: '30px',
+        overflow: 'auto'
     },
     chatBox: {
         width: '90%',
@@ -70,6 +71,14 @@ export default function Chat(props) {
     const receiver = "5fc2387539dc49f806f755c5";
 
     var messages = [];
+
+    const messagesEndRef = useRef(null)
+
+    const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(scrollToBottom, [messages]);
 
     const [textValue, changeTextValue] = useState('');
 
@@ -140,6 +149,7 @@ export default function Chat(props) {
                                     </div>
                                 ))
                             }
+                            <div ref={messagesEndRef} />
                         </div>
                         <div className={classes.flex}>
                             <TextField 
