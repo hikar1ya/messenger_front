@@ -53,11 +53,9 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function Chat(props) {
-    console.log(props.id, props.isAuth)
-
     const classes = useStyles();
 
-    const sender = "5fc23d1346ea132fe3066973";
+    const sender = "5fd0de8f9d7fe70437d9574a";
 
     const receiver = "5fc2387539dc49f806f755c5";
 
@@ -73,6 +71,7 @@ export default function Chat(props) {
 
         setData(response.data) 
     }
+
     var message = {
         from_id: sender,
         to_id: receiver,
@@ -88,13 +87,22 @@ export default function Chat(props) {
                     <div className = {classes.topicsWindow}>
                         <List>
                             {
-                                ['User'].map(user => (
-                                    <ListItem key = {user} button>
-                                        <ListItemText primary = {user} />
+                                props.users.map(user => (
+                                    <ListItem key = {user.login} button>
+                                        <ListItemText primary = {user.login} />
                                     </ListItem>
                                 ))
                             }
                         </List>
+                        <Button 
+                                variant="contained" 
+                                color="default" 
+                                className = {classes.button}
+                                onClick={() => props.logout()}
+
+                            >
+                                Выход
+                            </Button>
                     </div>
                     <div className = {classes.rightBlock}>
                         <div className = {classes.title}>

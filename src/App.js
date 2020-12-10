@@ -10,9 +10,12 @@ export default class App extends Component {
 
         const id = localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : ''
 
+        const users = localStorage.getItem('users')
+
         this.state = {
             isAuth: id !== '',
             id: id,
+            users: users
         }
     }
 
@@ -26,6 +29,7 @@ export default class App extends Component {
                 id, isAuth: true,
             })
         }
+        this.loadusers()
     }
 
     logout = () => {
@@ -33,6 +37,18 @@ export default class App extends Component {
             isAuth: false, id: '',
         })
         localStorage.removeItem('id')
+    }
+
+    loadusers = async () => {
+        var users = {
+            from_id: localStorage.getItem('id')
+        }
+        const response = await axios.post('http://localhost:5000/correspondents', users)
+        const data = response.data
+        localStorage.setItem('users', data)
+        this.setState({
+            users: data
+        })
     }
 
     render() {
@@ -44,6 +60,7 @@ export default class App extends Component {
                             logout={this.logout}
                             isAuth={this.state.isAuth}
                             id={this.state.id}
+                            users={this.state.users}
                         />
                         : <Authorization authFunction={this.authFunction}/>
                 }
