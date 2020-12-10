@@ -87,6 +87,9 @@ export default function Chat(props) {
         text: textValue
     }
 
+    var users = [];
+    users = props.users;
+
     //fetchData();
 
     return (
@@ -96,7 +99,7 @@ export default function Chat(props) {
                     <div className = {classes.topicsWindow}>
                         <List>
                             {
-                                props.users.map(user => (
+                                users.map(user => (
                                     <ListItem key = {user.login} button>
                                         <ListItemText primary = {user.login} />
                                     </ListItem>
@@ -109,9 +112,9 @@ export default function Chat(props) {
                                 className = {classes.button}
                                 onClick={() => props.logout()}
 
-                            >
-                                Выход
-                            </Button>
+                        >
+                            Выход
+                        </Button>
                     </div>
                     <div className = {classes.rightBlock}>
                         <div className = {classes.title}>
