@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function Chat() {
+export default function Chat(props) {
+    console.log(props.id, props.isAuth)
+
     const classes = useStyles();
 
     const sender = "5fc23d1346ea132fe3066973";

@@ -4,7 +4,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,14 +29,14 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function Authorization() {
+export default function Authorization(props) {
     const classes = useStyles();
 
     const [loginValue, changeLoginValue] = useState('');
 
     const [passwordValue, changePasswordValue] = useState('');
 
-    var log_info = {
+    const log_info = {
         login: loginValue,
         password: passwordValue
     }
@@ -76,8 +75,7 @@ export default function Authorization() {
                         variant="contained" 
                         color="primary" 
                         className = {classes.button}
-                        onClick={() => {
-                            axios.post('http://localhost:5000/auth', log_info)}}
+                        onClick={() => props.authFunction(log_info)}
                     >
                         Sign in
                     </Button>
