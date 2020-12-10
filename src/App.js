@@ -6,11 +6,12 @@ import axios from 'axios'
 
 export default class App extends Component {
     constructor(props) {
+
         super(props)
 
         const id = localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : ''
 
-        const users = localStorage.getItem('users')
+        const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : []
 
         this.state = {
             isAuth: id !== '',
@@ -28,8 +29,8 @@ export default class App extends Component {
             this.setState({
                 id, isAuth: true,
             })
+            this.loadusers()
         }
-        this.loadusers()
     }
 
     logout = () => {
@@ -45,7 +46,7 @@ export default class App extends Component {
         }
         const response = await axios.post('http://localhost:5000/correspondents', users)
         const data = response.data
-        localStorage.setItem('users', data)
+        localStorage.setItem('users', JSON.stringify(data))
         this.setState({
             users: data
         })

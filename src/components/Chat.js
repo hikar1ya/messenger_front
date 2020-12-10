@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
     cyan: {
         color: theme.palette.getContrastText(cyan[200]),
         backgroundColor: cyan[200],
+    },
+    logoutbutton: {
+        width: '120px'
     }
   }));
 
@@ -96,9 +99,6 @@ export default function Chat(props) {
         text: textValue
     }
 
-    var users = [];
-    users = props.users;
-
     //fetchData();
 
     return (
@@ -108,7 +108,7 @@ export default function Chat(props) {
                     <div className = {classes.topicsWindow}>
                         <List>
                             {
-                                users.map(user => (
+                                props.users.map(user => (
                                     <ListItem key = {user.login} button>
                                         <ListItemText primary = {user.login} />
                                     </ListItem>
@@ -118,11 +118,11 @@ export default function Chat(props) {
                         <Button 
                                 variant="contained" 
                                 color="default" 
-                                className = {classes.button}
+                                className = {classes.logoutbutton}
                                 onClick={() => props.logout()}
 
                         >
-                            Выход
+                            Sign out
                         </Button>
                     </div>
                     <div className = {classes.rightBlock}>
