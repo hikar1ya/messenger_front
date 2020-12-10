@@ -5,11 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import { cyan } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
         borderTop: '1px solid #C0C0C0',
     },
     flex: {
-        display: 'flex',
-        alignItems: 'center'
+        display: 'flex'
     },
     topicsWindow: {
         width: '40%',
@@ -31,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     title: {
         width: 'inherit',
         height: '50px',
-        borderBottom: '1px solid #C0C0C0'
+        borderBottom: '1px solid #C0C0C0',
+        alignItems: "center"
     }, 
     chatWindow: {
         width: 'inherit',
@@ -49,6 +49,16 @@ const useStyles = makeStyles((theme) => ({
     },
     rightBlock: {
         width: '100%'
+    },
+    avatar: {
+        display: 'flex',
+        '& > *': {
+        margin: theme.spacing(1),
+        },
+    },
+    cyan: {
+        color: theme.palette.getContrastText(cyan[200]),
+        backgroundColor: cyan[200],
     }
   }));
 
@@ -61,8 +71,7 @@ export default function Chat(props) {
 
     const receiver = "5fc2387539dc49f806f755c5";
 
-    
-
+    var messages = [];
 
     const [textValue, changeTextValue] = useState('');
 
@@ -104,16 +113,19 @@ export default function Chat(props) {
                         </div>
                         <div className = {classes.chatWindow}>
                             {
-                                [{from: 'User', msg: "What's up bro"}].map((chat, i) => (
-                                    <div className = {classes.flex}>
-                                        <Chip
-                                            avatar = {<Avatar>L</Avatar>}
-                                            label = {chat.from}
-                                            color = "primary"
-                                            variant = "outlined"
-                                            size = "medium"
-                                        />
-                                        <Typography variant="p">{chat.msg}</Typography>
+                                messages.map((_message) => (
+                                    <div>
+                                        <div className = {classes.flex}>
+                                            <div className={classes.avatar}>
+                                                <Avatar className={classes.cyan}>L</Avatar>
+                                            </div>
+                                            <div>
+                                                <div><strong>Name</strong></div>
+                                                <div> 
+                                                    {_message.text}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))
                             }
