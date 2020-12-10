@@ -13,10 +13,13 @@ export default class App extends Component {
 
         const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : []
 
+        const messages = localStorage.getItem('messages') ? JSON.parse(localStorage.getItem('messages')) : []
+
         this.state = {
             isAuth: id !== '',
             id: id,
-            users: users
+            users: users,
+            messages: messages
         }
     }
 
@@ -52,6 +55,21 @@ export default class App extends Component {
         })
     }
 
+    loadmessages = async (toid) => {
+        var messagesinfo = {
+            from_id: localStorage.getItem('id'),
+            to_id: toid
+        }
+        console.log(messagesinfo)
+        const response = await axios.post('http://localhost:5000/messages', messagesinfo)
+        const data = response.data
+        localStorage.setItem('messages', JSON.stringify(data))
+        this.setState({
+            messages: data
+        })
+        console.log(data)
+    }
+
     render() {
         return (
             <div className={'App'}>
@@ -62,6 +80,8 @@ export default class App extends Component {
                             isAuth={this.state.isAuth}
                             id={this.state.id}
                             users={this.state.users}
+                            loadmessages={this.loadmessages}
+                            messages={this.state.messages}
                         />
                         : <Authorization authFunction={this.authFunction}/>
                 }

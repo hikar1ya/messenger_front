@@ -73,33 +73,21 @@ export default function Chat(props) {
 
     const receiver = "5fc2387539dc49f806f755c5";
 
-    var messages = [];
-
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
     }
 
-    useEffect(scrollToBottom, [messages]);
+    useEffect(scrollToBottom, [props.messages]);
 
     const [textValue, changeTextValue] = useState('');
-
-    const [data, setData] = useState(null);
-
-    const fetchData = async () => {
-        const response = await axios.get("http://")
-
-        setData(response.data) 
-    }
 
     var message = {
         from_id: sender,
         to_id: receiver,
         text: textValue
     }
-
-    //fetchData();
 
     return (
         <div>
@@ -110,7 +98,10 @@ export default function Chat(props) {
                             {
                                 props.users.map(user => (
                                     <ListItem key = {user.login} button>
-                                        <ListItemText primary = {user.login} />
+                                        <ListItemText 
+                                            primary = {user.login} 
+                                            onClick = {() => props.loadmessages(user._id)}
+                                        />
                                     </ListItem>
                                 ))
                             }
@@ -119,7 +110,7 @@ export default function Chat(props) {
                                 variant="contained" 
                                 color="default" 
                                 className = {classes.logoutbutton}
-                                onClick={() => props.logout()}
+                                onClick = {() => props.logout()}
 
                         >
                             Sign out
@@ -133,7 +124,7 @@ export default function Chat(props) {
                         </div>
                         <div className = {classes.chatWindow}>
                             {
-                                messages.map((_message) => (
+                                props.messages.map((_message) => (
                                     <div>
                                         <div className = {classes.flex}>
                                             <div className={classes.avatar}>
