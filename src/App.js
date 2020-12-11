@@ -50,6 +50,8 @@ export default class App extends Component {
         localStorage.clear()
     }
 
+   
+
     loadCorrespondens = async () => {
         var correspondentsInfo = {
             id: JSON.parse(localStorage.getItem('userId')).id
@@ -85,6 +87,7 @@ export default class App extends Component {
                             logOut={this.logOut}
                             isAuth={this.state.isAuth}
                             userId={this.state.userId}
+			    login={this.state.login}
                             correspondents={this.state.correspondents}
                             loadCorrespondent={this.loadCorrespondent}
                             messages={this.state.messages}
