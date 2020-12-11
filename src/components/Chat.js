@@ -81,7 +81,7 @@ export default function Chat(props) {
 
     var message = {
         from_id: props.userId,
-        to_id: props.selectedCorrespondent,
+        to_id: props.selectedCorrespondent._id,
         text: textValue
     }
 
@@ -94,6 +94,9 @@ export default function Chat(props) {
                             {
                                 props.correspondents.map(correspondent => (
                                     <ListItem key = {correspondent.login} button>
+                                        <div className={classes.avatar}>
+                                            <Avatar className={classes.cyan}>{correspondent.avatar}</Avatar>
+                                        </div>
                                         <ListItemText 
                                             primary = {correspondent.login} 
                                             onClick = {() => props.loadCorrespondent(correspondent)}
@@ -123,10 +126,10 @@ export default function Chat(props) {
                                     <div>
                                         <div className = {classes.flex}>
                                             <div className={classes.avatar}>
-                                                <Avatar className={classes.cyan}>L</Avatar>
+                                                <Avatar className={classes.cyan}>{_message.avatar}</Avatar>
                                             </div>
                                             <div>
-                                                <div><strong>Name</strong></div>
+                                                <div><strong>{_message.login}</strong></div>
                                                 <div> 
                                                     {_message.text}
                                                 </div>
@@ -151,9 +154,9 @@ export default function Chat(props) {
                                 color="primary" 
                                 className = {classes.button}
                                 onClick={() => {
-                                    console.log(message)
-                                    axios.post('http://localhost:5000/send', message)}}
-
+                                    props.sendMessage(message)
+                                    changeTextValue('')
+                                }}
                             >
                                 Send
                             </Button>
