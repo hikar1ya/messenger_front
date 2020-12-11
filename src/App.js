@@ -9,64 +9,68 @@ export default class App extends Component {
 
         super(props)
 
-        const id = localStorage.getItem('id') ? JSON.parse(localStorage.getItem('id')) : ''
+        const userId = localStorage.getItem('userId') ? JSON.parse(localStorage.getItem('userId')).id : ''
 
-        const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : []
+        const correspondents = localStorage.getItem('correspondents') ? JSON.parse(localStorage.getItem('correspondents')) : []
 
         const messages = localStorage.getItem('messages') ? JSON.parse(localStorage.getItem('messages')) : []
 
-        const toUserId = localStorage.getItem('toUserId')? JSON.parse(localStorage.getItem('toUserId')) : ''
+        const selectedCorrespondent = localStorage.getItem('selectedCorrespondent')
+            ? JSON.parse(localStorage.getItem('selectedCorrespondent')).id : ''
 
         this.state = {
-            isAuth: id !== '',
-            id: id,
-            users: users,
+            isAuth: userId !== '',
+            userId: userId,
+            correspondents: correspondents,
             messages: messages,
-            toUserId: toUserId
+            selectedCorrespondent: selectedCorrespondent
         }
     }
 
-    authFunction = async (log_info) => {
-        const response = await axios.post('http://localhost:5000/auth', log_info)
+    authFunction = async (logInfo) => {
+        const response = await axios.post('http://localhost:5000/auth', logInfo)
         const data = response.data
         if (data && data.success) {
-            const id = response.data
-            localStorage.setItem('id', JSON.stringify(id))
+            const userId = response.data
+            localStorage.setItem('userId', JSON.stringify(userId))
             this.setState({
-                id, isAuth: true,
+                userId: userId, isAuth: true,
             })
-            this.loadusers()
+            this.loadCorrespondens()
         }
+        console.log(localStorage.getItem('correspondents'))
     }
 
-    logout = () => {
+    logOut = () => {
         this.setState({
-            isAuth: false, id: '',
+            isAuth: false, userId: '', correspondents: [], messages: [], selectedCorrespondent: ''
         })
-        localStorage.removeItem('id')
+        localStorage.clear()
     }
 
-    loadusers = async () => {
-        var users = {
-            from_id: localStorage.getItem('id')
+    loadCorrespondens = async () => {
+        var correspondentsInfo = {
+            id: JSON.parse(localStorage.getItem('userId')).id
         }
-        const response = await axios.post('http://localhost:5000/correspondents', users)
+        console.log(correspondentsInfo)
+        const response = await axios.post('http://localhost:5000/correspondents', correspondentsInfo)
         const data = response.data
-        localStorage.setItem('users', JSON.stringify(data))
+        localStorage.setItem('correspondents', JSON.stringify(data))
         this.setState({
-            users: data
+            correspondents: data
         })
+        console.log(data)
     }
 
-    loadmessages = async (toid) => {
-        var messagesinfo = {
-            from_id: localStorage.getItem('id'),
+    loadCorrespondent = async (toid) => {
+        var messagesInfo = {
+            from_id: JSON.parse(localStorage.getItem('userId')).id,
             to_id: toid
         }
-        const response = await axios.post('http://localhost:5000/messages', messagesinfo)
+        const response = await axios.post('http://localhost:5000/messages', messagesInfo)
         const data = response.data
         localStorage.setItem('messages', JSON.stringify(data))
-        localStorage.setItem('toUserId', JSON.stringify(toid))
+        localStorage.setItem('correspondentId', JSON.stringify(toid))
         this.setState({
             messages: data, toUserId: toid
         })
@@ -78,13 +82,13 @@ export default class App extends Component {
                 {
                     this.state.isAuth
                         ? <Chat
-                            logout={this.logout}
+                            logOut={this.logOut}
                             isAuth={this.state.isAuth}
-                            id={this.state.id}
-                            users={this.state.users}
-                            loadmessages={this.loadmessages}
+                            userId={this.state.userId}
+                            correspondents={this.state.correspondents}
+                            loadCorrespondent={this.loadCorrespondent}
                             messages={this.state.messages}
-                            toUserId={this.state.toUserId}
+                            selectedCorrespondent={this.state.selectedCorrespondent}
                         />
                         : <Authorization authFunction={this.authFunction}/>
                 }

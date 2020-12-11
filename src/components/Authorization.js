@@ -36,7 +36,7 @@ export default function Authorization(props) {
 
     const [passwordValue, changePasswordValue] = useState('');
 
-    const log_info = {
+    const logInfo = {
         login: loginValue,
         password: passwordValue
     }
@@ -75,7 +75,7 @@ export default function Authorization(props) {
                         variant="contained" 
                         color="primary" 
                         className = {classes.button}
-                        onClick={() => props.authFunction(log_info)}
+                        onClick={() => props.authFunction(logInfo)}
                     >
                         Sign in
                     </Button>

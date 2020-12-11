@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
     chatBox: {
         width: '90%',
-        height: '50px'
+        height: '100%'
     },
     button: {
         marginLeft: '10px',
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.getContrastText(cyan[200]),
         backgroundColor: cyan[200],
     },
-    logoutbutton: {
+    logOutButton: {
         width: '120px'
     }
   }));
@@ -80,8 +80,8 @@ export default function Chat(props) {
     const [textValue, changeTextValue] = useState('');
 
     var message = {
-        from_id: props.id,
-        to_id: props.toUserId,
+        from_id: props.userId,
+        to_id: props.selectedCorrespondent,
         text: textValue
     }
 
@@ -92,22 +92,21 @@ export default function Chat(props) {
                     <div className = {classes.topicsWindow}>
                         <List>
                             {
-                                props.users.map(user => (
+                                props.correspondents.map(user => (
                                     <ListItem key = {user.login} button>
                                         <ListItemText 
                                             primary = {user.login} 
-                                            onClick = {() => props.loadmessages(user._id)}
+                                            onClick = {() => props.loadCorrespondent(user._id)}
                                         />
                                     </ListItem>
                                 ))
                             }
                         </List>
                         <Button 
-                                variant="contained" 
-                                color="default" 
-                                className = {classes.logoutbutton}
-                                onClick = {() => props.logout()}
-
+                            variant="contained" 
+                            color="default" 
+                            className = {classes.logOutButton}
+                            onClick = {() => props.logOut()}
                         >
                             Sign out
                         </Button>
