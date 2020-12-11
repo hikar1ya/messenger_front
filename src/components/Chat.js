@@ -92,11 +92,11 @@ export default function Chat(props) {
                     <div className = {classes.topicsWindow}>
                         <List>
                             {
-                                props.correspondents.map(user => (
-                                    <ListItem key = {user.login} button>
+                                props.correspondents.map(correspondent => (
+                                    <ListItem key = {correspondent.login} button>
                                         <ListItemText 
-                                            primary = {user.login} 
-                                            onClick = {() => props.loadCorrespondent(user._id)}
+                                            primary = {correspondent.login} 
+                                            onClick = {() => props.loadCorrespondent(correspondent)}
                                         />
                                     </ListItem>
                                 ))
@@ -114,7 +114,7 @@ export default function Chat(props) {
                     <div className = {classes.rightBlock}>
                         <div className = {classes.title}>
                             <Typography variant="h5" component="h5">
-                                Chat Name
+                                {props.selectedCorrespondent.login}
                             </Typography>
                         </div>
                         <div className = {classes.chatWindow}>

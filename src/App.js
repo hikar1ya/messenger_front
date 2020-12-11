@@ -16,14 +16,17 @@ export default class App extends Component {
         const messages = localStorage.getItem('messages') ? JSON.parse(localStorage.getItem('messages')) : []
 
         const selectedCorrespondent = localStorage.getItem('selectedCorrespondent')
-            ? JSON.parse(localStorage.getItem('selectedCorrespondent')).id : ''
+            ? JSON.parse(localStorage.getItem('selectedCorrespondent')) : ''
+
+        const login = localStorage.getItem('login') ? JSON.parse(localStorage.getItem('login')).login : ''
 
         this.state = {
             isAuth: userId !== '',
             userId: userId,
             correspondents: correspondents,
             messages: messages,
-            selectedCorrespondent: selectedCorrespondent
+            selectedCorrespondent: selectedCorrespondent,
+            login: login
         }
     }
 
@@ -34,11 +37,10 @@ export default class App extends Component {
             const userId = response.data
             localStorage.setItem('userId', JSON.stringify(userId))
             this.setState({
-                userId: userId, isAuth: true,
+                userId: userId, isAuth: true, login: logInfo.login
             })
             this.loadCorrespondens()
         }
-        console.log(localStorage.getItem('correspondents'))
     }
 
     logOut = () => {
@@ -52,27 +54,25 @@ export default class App extends Component {
         var correspondentsInfo = {
             id: JSON.parse(localStorage.getItem('userId')).id
         }
-        console.log(correspondentsInfo)
         const response = await axios.post('http://localhost:5000/correspondents', correspondentsInfo)
         const data = response.data
         localStorage.setItem('correspondents', JSON.stringify(data))
         this.setState({
             correspondents: data
         })
-        console.log(data)
     }
 
-    loadCorrespondent = async (toid) => {
+    loadCorrespondent = async (correspondent) => {
         var messagesInfo = {
             from_id: JSON.parse(localStorage.getItem('userId')).id,
-            to_id: toid
+            to_id: correspondent._id
         }
         const response = await axios.post('http://localhost:5000/messages', messagesInfo)
         const data = response.data
         localStorage.setItem('messages', JSON.stringify(data))
-        localStorage.setItem('correspondentId', JSON.stringify(toid))
+        localStorage.setItem('selectedCorrespondent', JSON.stringify(correspondent))
         this.setState({
-            messages: data, toUserId: toid
+            messages: data, selectedCorrespondent: correspondent
         })
     }
 
