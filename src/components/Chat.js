@@ -75,6 +75,20 @@ export default function Chat(props) {
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
     }
 
+    var messagesInfo = {
+            from_id: props.userId,
+            to_id: props.selectedCorrespondent._id
+        }
+    const fetchData = async () => {
+	console.log(props)
+        const response = props.selectedCorrespondent._id ? props.loadCorrespondent(props.selectedCorrespondent): ""
+    }
+
+    const send = async () => {
+        axios.post('http://localhost:5000/send', message)
+	fetchData()
+    }
+
     useEffect(scrollToBottom, [props.messages]);
 
     const [textValue, changeTextValue] = useState('');
@@ -123,10 +137,10 @@ export default function Chat(props) {
                                     <div>
                                         <div className = {classes.flex}>
                                             <div className={classes.avatar}>
-                                                <Avatar className={classes.cyan}>L</Avatar>
+                                                <Avatar className={classes.cyan}>{(_message.from_id == props.selectedCorrespondent._id ? props.selectedCorrespondent.login : props.login)[0]}</Avatar>
                                             </div>
                                             <div>
-                                                <div><strong>Name</strong></div>
+                                                <div><strong>{_message.from_id == props.selectedCorrespondent._id ? props.selectedCorrespondent.login : props.login}</strong></div>
                                                 <div> 
                                                     {_message.text}
                                                 </div>
@@ -151,8 +165,7 @@ export default function Chat(props) {
                                 color="primary" 
                                 className = {classes.button}
                                 onClick={() => {
-                                    console.log(message)
-                                    axios.post('http://localhost:5000/send', message)}}
+                                    send()}}
 
                             >
                                 Send
